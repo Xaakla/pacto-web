@@ -1,1 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-toggle::after {
+  content: none !important;
+}
+
+.loading-container {
+  min-height: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-item {
+  background-color: #296ec3 !important;
+  transition: all;
+
+  &:hover {
+    transition: all;
+    background-color: #E4EEFB !important;
+  }
+}
+
+.text-ellipsis {
+  max-width: 200px;  /* Defina a largura máxima desejada */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

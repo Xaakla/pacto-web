@@ -1,0 +1,115 @@
+<div class="container py-5">
+  <div class="row mb-4 align-items-center justify-content-between">
+    <div class="col-auto">
+      <h2>Listagem de Vendas</h2>
+      <span class="text-muted">Gerencie todas as suas vendas criadas no sistema.</span>
+    </div>
+    <div class="col-auto">
+      <button type="button" class="btn btn-primary" (click)="gotoNewSale()">Nova venda</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <input [(ngModel)]="pagination.q"
+                 class="form-control" debounce [debounceTime]="200"
+                 (debounceOnEnter)="search()" (debounceOnChange)="search()"
+                 placeholder="Busque pela descrição da venda..." type="text"/>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <input [(ngModel)]="pagination.transactionId"
+                 class="form-control" debounce [debounceTime]="200"
+                 (debounceOnEnter)="search()" (debounceOnChange)="search()"
+                 placeholder="Busque pelo id da transação..." type="text"/>
+        </div>
+      </div>
+
+      @if (selectedSalesIds.length > 0) {
+        <div class="row mb-2">
+          <div class="col-12 text-end">
+            <button type="button" class="btn btn-sm btn-danger" (click)="openConfirmDeleteUsersDialog()">
+              <i class='bx bx-trash align-middle'></i>
+              Deletar todos ({{ selectedSalesIds.length }})
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (sales.length > 0) {
+        <table class="table table-hover table-responsive">
+          <thead>
+          <tr>
+            <th>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="products-check"
+                       [checked]="allChecked()" (change)="checkAll($event)">
+              </div>
+            </th>
+            <th class="text-info">ID</th>
+            <th>Valor</th>
+            <th>Descrição</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (sale of sales; track sale.id) {
+              <tr [ngClass]="{'selected-item': sale.checked}" style="background-color: red !important">
+                <td style="width: 1%; white-space: nowrap;" class="align-middle">
+                  <div class="form-check cursor-pointer">
+                    <input class="form-check-input cursor-pointer" type="checkbox"
+                           [id]="'sale-check-'+sale.id" (click)="$event.stopPropagation();"
+                           [(ngModel)]="sale.checked" (ngModelChange)="addOrRemoveSelected(true, sale.id)">
+                  </div>
+                </td>
+                <td class="align-middle text-info"><b>{{ sale.id }}</b></td>
+                <td class="align-middle">{{ sale.amount / 100 | currency:sale.currency }}</td>
+                <td class="align-middle text-ellipsis">{{ sale.description }}</td>
+                <td class="text-end">
+                  <div class="dropdown cursor-pointer" ngbDropdown data-toggle="dropdown"
+                       data-boundary="window" container="body" placement="bottom-right">
+                    <button type="button" class="btn btn-light btn-sm" id="dropdownMenuLink" ngbDropdownToggle
+                            (click)="$event.stopPropagation();">
+                      <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end"
+                         aria-labelledby="dropdownMenuLink"
+                         ngbDropdownMenu placement="bottom-right">
+                      <ng-container>
+                        <a class="dropdown-item" href="javascript: void(0);"
+                           (click)="openSaleDetailsDialog(sale.id)">
+                          Ver detalhes
+                        </a>
+                      </ng-container>
+                      <div class="dropdown-divider"></div>
+                      <ng-container>
+                        <a class="dropdown-item text-danger" href="javascript: void(0);"
+                           (click)="openConfirmDeleteSaleDialog(sale.id)">
+                          Deletar
+                        </a>
+                      </ng-container>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <app-pagination
+          [show]="sales.length > 0"
+          [totalResults]="pagination.totalResults"
+          [itemsPerPage]="pagination.itemsPerPage"
+          [currentPage]="pagination.page + 1"
+          (itemsPerPageChangeEvent)="changeItemsPerPage($event)"
+          (paginateEvent)="paginate($event)"></app-pagination>
+      } @else {
+        <ngb-alert [dismissible]="false" type="warning">
+          <i class="fa-solid fa-circle-exclamation mr-1"></i>
+          {{ 'Não há vendas a serem listadas.' }}
+        </ngb-alert>
+      }
+    </div>
+  </div>
+</div>

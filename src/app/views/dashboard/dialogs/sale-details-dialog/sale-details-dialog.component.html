@@ -1,0 +1,111 @@
+@if (!loading) {
+  <form [formGroup]="form" (submit)="onSubmit()">
+    <!--  <app-form-debug [form]="form" [simple]="false"></app-form-debug>-->
+    <div class="modal-header">
+      <h3 class="m-0">Detalhes da venda <span class="text-info">#{{ saleId }}</span></h3>
+      <app-btn-close></app-btn-close>
+    </div>
+    <div class="modal-body">
+      <div class="mb-3 text-end">
+        @if (get('description').disabled) {
+          <button type="button" class="btn btn-sm btn-outline-primary" (click)="toggleFieldsStatus(true)">
+            Editar <i class="fa-regular fa-pen-to-square"></i>
+          </button>
+        } @else {
+          <button type="submit" class="btn btn-sm btn-primary">
+            Salvar <i class="fa-regular fa-floppy-disk"></i>
+          </button>
+        }
+      </div>
+      <div class="mb-3">
+        <input formControlName="amount" type="text" class="form-control"
+               currencyMask [options]="{allowNegative: false,
+                                               align: 'left',
+                                               allowZero: false,
+                                               prefix: 'R$ ',
+                                               thousands: '.',
+                                               decimal: ',' }"
+               [ngClass]="isValid('amount')" id="amount">
+        <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                             [control]="get('amount')"></field-error-message>
+        <field-error-message [type]="'maxNumber'" [message]="'O valor máximo é R$ 99.999.999,99'"
+                             [control]="get('amount')"></field-error-message>
+        <field-error-message [type]="'minNumber'" [message]="'O valor mínimo é R$ 1,00'"
+                             [control]="get('amount')"></field-error-message>
+      </div>
+      <div class="mb-3">
+      <textarea formControlName="description" rows="4" class="form-control"
+                [ngClass]="isValid('description')" id="description"
+                placeholder="Insira os detalhes da venda..."></textarea>
+        <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                             [control]="get('description')"></field-error-message>
+        <field-error-message [type]="'maxlength'" [message]="'O máximo de caracteres disponíveis é de 255.'"
+                             [control]="get('description')"></field-error-message>
+      </div>
+
+      <hr>
+
+      <div class="row mb-3">
+        <div class="col-lg-6 col-sm-12">
+          <h5>Histórico de pagamentos ({{ getFormArray('payments').length }})</h5>
+        </div>
+        @if (!isPaid()) {
+          <div class="col-lg-6 col-sm-12 text-end">
+            <button type="button" class="btn btn-sm btn-primary" (click)="openMakePaymentDialog()">
+              Novo pagamento
+            </button>
+          </div>
+        }
+      </div>
+
+      @if (getFormArray('payments').length > 0) {
+        <div class="mb-3 overflow-auto" style="max-height: 450px">
+          @for (payment of getFormArray('payments')['controls']; track $index) {
+            <div class="payment-row bg-light mb-3">
+              <div class="info-row mb-2">
+                <span>ID da transação:</span>
+                <b>{{ payment.get('transactionId')?.value }}</b>
+              </div>
+              <div class="info-row mb-2">
+                <span>Valor:</span>
+                <b>{{ payment.get('amount')?.value / 100 | currency:this.getValue('currency') }}</b>
+              </div>
+              <div class="info-row mb-2">
+                <span>Processador:</span>
+                <b>{{ payment.get('paymentProcessor')?.value }}</b>
+              </div>
+              <div class="info-row mb-2">
+                <span>Criado em:</span>
+                <b>{{ payment.get('createdAt')?.value * 1000 | date:'medium' }}</b>
+              </div>
+              <div class="info-row">
+                <span>Status:</span>
+                <b [ngClass]="{'text-success': payment.get('status')?.value === PaymentStatus.SUCCESS || payment.get('status')?.value === PaymentStatus.REFUNDED,
+                            'text-warning': payment.get('status')?.value === PaymentStatus.PAYMENT_PENDING ,
+                            'text-danger': payment.get('status')?.value === PaymentStatus.FAILED}"
+                >{{ translatePaymentStatus(payment.get('status')?.value) }}</b>
+              </div>
+
+              @if (payment.get('status')?.value === PaymentStatus.SUCCESS) {
+                <hr>
+                <app-button [type]="'submit'" [customClass]="'btn btn-sm btn-danger'"
+                            [loading]="submittingFormLoadingArray[$index]" [label]="'Pedir reembolso'"
+                            (click)="cancelPayment(payment.get('id')?.value, $index)"
+                            [loadingLabel]="'Reembolsando...'"></app-button>
+              }
+            </div>
+          }
+        </div>
+      } @else {
+        <ngb-alert [dismissible]="false" type="warning">
+          <i class="fa-solid fa-circle-exclamation mr-1"></i>
+          {{ 'Não há pagamentos a serem listados.' }}
+        </ngb-alert>
+      }
+    </div>
+  </form>
+} @else {
+  <div class="loading-container">
+    <app-loading></app-loading>
+  </div>
+}

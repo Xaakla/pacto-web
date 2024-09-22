@@ -1,0 +1,54 @@
+<div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center justify-content-center">
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="form" (submit)="onSubmit()">
+        <h1>Pacto Vendas</h1>
+        <p class="text-muted">Bem-vindo de volta! Acesse sua conta para continuar.</p>
+        <div class="mb-3">
+          <input placeholder="Nome" class="form-control"
+                 [ngClass]="isValid('username')" formControlName="username"/>
+          <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                               [control]="get('username')"></field-error-message>
+        </div>
+        <div class="mb-3">
+          <input placeholder="Email" class="form-control"
+                 [ngClass]="isValid('email')" formControlName="email"/>
+          <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                               [control]="get('email')"></field-error-message>
+          <field-error-message [type]="'email'" [message]="'O formato desse email não é válido'"
+                               [control]="get('email')"></field-error-message>
+        </div>
+        <div class="mb-3">
+          <input [type]="'text'" placeholder="Senha" class="form-control"
+                 [ngClass]="isValid('password')" formControlName="password" />
+          <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                               [control]="get('password')"></field-error-message>
+          <field-error-message [type]="'minLength'" [message]="'A senha precisa ter no mínimo 8 caracteres'"
+                               [control]="get('password')"></field-error-message>
+          <field-error-message [type]="'passwordStrength'"
+                               [message]="'A senha precisa ter no mínimo 1 letra maiúscula e 1 letra minúscula'"
+                               [control]="get('password')"></field-error-message>
+        </div>
+        <div class="mb-4">
+          <input [type]="'text'" placeholder="Confirmar senha" class="form-control"
+                 [ngClass]="isValid('confirmPassword')" formControlName="confirmPassword" />
+          <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                               [control]="get('confirmPassword')"></field-error-message>
+          <field-error-message [type]="'compare'" [message]="'As senhas precisam ser iguais'"
+                               [control]="get('confirmPassword')"></field-error-message>
+        </div>
+        <div class="row">
+          <div class="col-12 d-flex justify-content-end">
+            <app-button [type]="'submit'" [customClass]="'btn btn-primary px-4'"
+                        [loading]="submittingFormLoading" [label]="'Registrar'"
+                        [loadingLabel]="'Registrando...'"></app-button>
+          </div>
+          <div class="col-12 d-flex justify-content-end mt-2">
+            <span class="text-info cursor-pointer" (click)="gotoSignin()">
+              Já possuí uma conta? Entre aqui!</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<form [formGroup]="form" (submit)="onSubmit()">
+<!--  <app-form-debug [form]="form" [simple]="false"></app-form-debug>-->
+  <div class="modal-header">
+    <h3 class="m-0">Efetuar um novo pagamento</h3>
+    <app-btn-close></app-btn-close>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <label class="form-label" for="amount">Valor</label>
+      <input formControlName="amount" type="text" class="form-control"
+             currencyMask [options]="{allowNegative: false,
+                                               align: 'left',
+                                               allowZero: false,
+                                               prefix: 'R$ ',
+                                               thousands: '.',
+                                               decimal: ',' }"
+             [ngClass]="isValid('amount')" id="amount">
+            <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                                 [control]="get('amount')"></field-error-message>
+            <field-error-message [type]="'maxNumber'" [message]="'O valor máximo é ' + (availableAmount / 100 | currency:'BRL')"
+                                 [control]="get('amount')"></field-error-message>
+            <field-error-message [type]="'minNumber'" [message]="'O valor mínimo é R$ 0,01'"
+                                 [control]="get('amount')"></field-error-message>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="cardNumber">Número do cartão</label>
+      <input formControlName="cardNumber" type="text" class="form-control"
+             placeholder="0000 0000 0000 0000" mask="0000 0000 0000 0000"
+             [ngClass]="isValid('cardNumber')" id="cardNumber">
+      <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                           [control]="get('cardNumber')"></field-error-message>
+      <field-error-message [type]="'mask'" [message]="'O número do cartão está no formato inválido'"
+                           [control]="get('cardNumber')"></field-error-message>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="holder">Nome no cartão</label>
+      <input formControlName="holder" type="text" class="form-control"
+             [ngClass]="isValid('holder')" id="holder">
+      <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                           [control]="get('holder')"></field-error-message>
+      <field-error-message [type]="'maxlength'" [message]="'O máximo de caracteres disponíveis é de 25'"
+                           [control]="get('holder')"></field-error-message>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+        <div class="mb-3">
+          <label class="form-label" for="expirationDate">Data de Venc.</label>
+          <input formControlName="expirationDate" type="text" class="form-control"
+                 placeholder="MM/YYYY" mask="00/0000"
+                 [ngClass]="isValid('expirationDate')" id="expirationDate">
+          <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                               [control]="get('expirationDate')"></field-error-message>
+          <field-error-message [type]="'mask'" [message]="'A data de expiração está no formato inválido'"
+                               [control]="get('expirationDate')"></field-error-message>
+        </div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <div class="mb-3">
+          <label class="form-label" for="securityCode">CVV</label>
+          <input formControlName="securityCode" type="text" class="form-control"
+                 placeholder="XXX" mask="000"
+                 [ngClass]="isValid('securityCode')" id="securityCode">
+          <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                               [control]="get('securityCode')"></field-error-message>
+          <field-error-message [type]="'mask'" [message]="'O CVV está no formato inválido'"
+                               [control]="get('securityCode')"></field-error-message>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 text-end">
+        <app-button [type]="'submit'" [customClass]="'btn btn-primary'"
+                    [loading]="submittingFormLoading" [label]="'Efetuar pagamento'"
+                    [loadingLabel]="'Efetuando...'"></app-button>
+      </div>
+    </div>
+  </div>
+</form>
