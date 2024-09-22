@@ -54,7 +54,7 @@ export class SaleNewEditComponent extends FormReactiveBase implements OnInit {
       description: ['', [Validators.required, Validators.maxLength(255)]],
       amount: ['', [Validators.required,
         RxwebValidators.maxNumber({value: 99999999.99}),
-        RxwebValidators.minNumber({value: 1}),]],
+        RxwebValidators.minNumber({value: 1})]],
       currency: ['BRL', Validators.required]
     });
   }

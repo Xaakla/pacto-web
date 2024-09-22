@@ -3,7 +3,7 @@
     <div class="card-body">
       <form [formGroup]="form" (submit)="onSubmit()">
         <h1>Pacto Vendas</h1>
-        <p class="text-muted">Bem-vindo de volta! Acesse sua conta para continuar.</p>
+        <p class="text-muted">Estamos felizes em vê-lo novamente! Entre para acessar seu painel.</p>
         <div class="mb-3">
           <input placeholder="Email" class="form-control"
                  [ngClass]="isValid('email')" formControlName="email"/>
@@ -13,8 +13,7 @@
                                [control]="get('email')"></field-error-message>
         </div>
         <div class="mb-4">
-          <input [type]="'text'" placeholder="Senha" class="form-control"
-                 [ngClass]="isValid('password')" formControlName="password" />
+          <input placeholder="Senha" class="form-control" [ngClass]="isValid('password')" formControlName="password"/>
           <field-error-message
             [type]="'required'"
             [message]="'O campo é obrigatório'"
@@ -29,7 +28,7 @@
           </div>
           <div class="col-12 d-flex justify-content-end mt-2">
             <span class="text-info cursor-pointer" (click)="gotoSignup()">
-              Ainda não tem uma conta? Registre-se aqui!</span>
+              Não tem uma conta? Cadastre-se gratuitamente!</span>
           </div>
         </div>
       </form>
