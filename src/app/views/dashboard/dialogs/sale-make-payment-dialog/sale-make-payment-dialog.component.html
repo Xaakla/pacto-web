@@ -34,7 +34,7 @@
                            [control]="get('cardNumber')"></field-error-message>
     </div>
     <div class="mb-3">
-      <label class="form-label" for="holder">Nome no cartão</label>
+      <label class="form-label" for="holder">Nome do titular</label>
       <input formControlName="holder" type="text" class="form-control"
              [ngClass]="isValid('holder')" id="holder">
       <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
