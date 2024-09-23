@@ -1,27 +1,44 @@
-# PactoWeb
+# Web - Pacto Soluções (Documentação)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.5.
+## Visão Geral
 
-## Development server
+Este projeto frontend foi desenvolvido para consumir os dados da [Pacto API](https://github.com/Xaakla/pacto-api.git). Ele permite que os usuários registrem suas vendas e, posteriormente, realizem pagamentos ou solicitem reembolsos através de cartão de crédito, de forma integrada com a API da **CIELO**.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Requisitos
 
-## Code scaffolding
+Antes de prosseguir com a execução do projeto, certifique-se de que o ambiente de desenvolvimento atenda aos seguintes requisitos:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Node.js** e **npm** instalados.
+- **Git** para clonar o repositório e gerenciar o controle de versão.
+- A **Pacto API** devidamente configurado e em execução.
 
-## Build
+## Clonando o Repositório
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Para obter o código-fonte do projeto, execute o seguinte comando no terminal:
 
-## Running unit tests
+```bash
+git clone https://github.com/Xaakla/pacto-web.git
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Caso prefira, também é possível fazer o download do projeto em formato ZIP diretamente pelo link do repositório.
 
-## Running end-to-end tests
+## Iniciando o Projeto
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Siga as etapas abaixo para configurar e rodar o projeto em seu ambiente local.
 
-## Further help
+1. Navegue até o diretório raiz onde o projeto foi clonado.
+2. Execute um dos seguintes comandos para iniciar o ambiente de desenvolvimento ou compilar o projeto.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Servidor de Desenvolvimento
+
+Para iniciar o servidor de desenvolvimento, execute o seguinte comando:
+
+```bash
+ng serve
+```
+
+Em seguida, abra seu navegador e acesse o seguinte endereço:
+
+```
+http://localhost:4200/
+```

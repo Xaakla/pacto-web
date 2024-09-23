@@ -97,7 +97,8 @@ export class SaleListComponent implements OnInit {
       transactionId: '',
       totalResults: 0,
       page: 0,
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      sortDirection: 'DESC'
     };
   }
 
