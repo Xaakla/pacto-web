@@ -57,7 +57,6 @@ export class SaleMakePaymentDialogComponent extends FormReactiveBase implements 
   }
 
   private _createForm() {
-    console.log('aaaa', this.availableAmount/100)
     this.form = this._fb.group({
       cardNumber: ['', Validators.required],
       holder: ['', [Validators.required, Validators.maxLength(25)]],
