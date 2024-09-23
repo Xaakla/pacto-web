@@ -103,7 +103,6 @@ export class SaleMakePaymentDialogComponent extends FormReactiveBase implements 
     this._paymentService.createPayment(this._formattedPayment())
       .subscribe({
         next: () => {
-          // this._alertService.info('alguma coisa legal');
           this._onClose();
         }, error: ({error}) => {
           this.submittingFormLoading = false;
