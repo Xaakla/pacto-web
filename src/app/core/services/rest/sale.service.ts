@@ -23,10 +23,6 @@ export class SaleService {
     return this.http.get(this.API, {params, observe: 'response'}).pipe(take(1));
   }
 
-  public findById(id: any) {
-    return this.http.get(`${this.API}/${id}`, {observe: 'response'}).pipe(take(1));
-  }
-
   public findFullById(id: any) {
     return this.http.get(`${this.API}/${id}/full`, {observe: 'response'}).pipe(take(1));
   }

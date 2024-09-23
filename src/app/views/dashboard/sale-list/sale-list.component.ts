@@ -40,6 +40,8 @@ export class SaleListComponent implements OnInit {
   public loading: boolean = true;
   public selectedSalesIds: number[] = [];
 
+  protected readonly SalePaymentStatus = SalePaymentStatus;
+
   constructor(
     private _routeService: RouteService,
     private _saleService: SaleService,
@@ -204,6 +206,4 @@ export class SaleListComponent implements OnInit {
   public allChecked(): boolean {
     return this.sales?.length > 0 && this.sales?.filter(it => !it.checked).length === 0;
   }
-
-  protected readonly SalePaymentStatus = SalePaymentStatus;
 }

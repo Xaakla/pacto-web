@@ -46,6 +46,9 @@ export class SaleDetailsDialogComponent extends FormReactiveBase implements OnIn
   public loading = true;
   public submittingFormLoadingArray: boolean[] = [];
 
+  protected readonly PaymentStatus = PaymentStatus;
+  protected readonly SalePaymentStatus = SalePaymentStatus;
+
   constructor(
     private _fb: FormBuilder,
     private _saleService: SaleService,
@@ -161,7 +164,4 @@ export class SaleDetailsDialogComponent extends FormReactiveBase implements OnIn
         }
       })
   }
-
-  protected readonly PaymentStatus = PaymentStatus;
-  protected readonly SalePaymentStatus = SalePaymentStatus;
 }

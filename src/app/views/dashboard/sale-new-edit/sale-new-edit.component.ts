@@ -67,10 +67,6 @@ export class SaleNewEditComponent extends FormReactiveBase implements OnInit {
       });
   }
 
-  public get isEdit(): boolean {
-    return !!this.saleId;
-  }
-
   public gotoSalesList(): void {
     this._routeService.go([AppRoutes.Dashboard.Sales.path]);
   }

@@ -8,21 +8,22 @@ import {AbstractControl} from "@angular/forms";
 })
 export class FieldErrorMessageComponent {
 
-    @Input() control!: AbstractControl;
-    @Input() message = 'message error default';
-    @Input() params = {};
-    @Input() type = 'required';
-    @Input() boxAlert = false;
+  @Input() control!: AbstractControl;
+  @Input() message = 'message error default';
+  @Input() params = {};
+  @Input() type = 'required';
+  @Input() boxAlert = false;
 
-    @HostBinding('class') get valid() {
-        if (this.control && this.control.errors && this.control.hasError(this.type) && this.control.touched) {
-            if (this.boxAlert) {
-                return 'invalid-feedback alert alert-danger fade show';
-            } else {
-                return 'invalid-feedback';
-            }
-        }
-
-        return '';
+  @HostBinding('class') get valid() {
+    // @ts-ignore
+    if (this.control && this.control.errors && this.control.hasError(this.type) && this.control.touched) {
+      if (this.boxAlert) {
+        return 'invalid-feedback alert alert-danger fade show';
+      } else {
+        return 'invalid-feedback';
+      }
     }
+
+    return '';
+  }
 }

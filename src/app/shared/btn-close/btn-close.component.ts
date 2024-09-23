@@ -9,15 +9,16 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class BtnCloseComponent {
 
-    @Input()
-    public fontSize: number = 14;
+  @Input()
+  public fontSize: number = 14;
 
-    @Input()
-    public color: 'red' | 'black' | 'white' = 'red';
+  @Input()
+  public color: 'red' | 'black' | 'white' = 'red';
 
-    constructor(private _ngbActiveModal: NgbActiveModal) {}
+  constructor(private _ngbActiveModal: NgbActiveModal) {
+  }
 
-    public onClose(): void {
-        this._ngbActiveModal.dismiss(false);
-    }
+  public onClose(): void {
+    this._ngbActiveModal.dismiss(false);
+  }
 }

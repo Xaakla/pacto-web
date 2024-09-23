@@ -11,7 +11,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
     provideHttpClient(withInterceptors([httpInterceptFn])),
-    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    {provide: LOCALE_ID, useValue: 'pt-BR'},
     provideNgxMask()
   ]
 };

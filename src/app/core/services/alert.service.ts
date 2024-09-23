@@ -5,17 +5,6 @@ import Swal, {SweetAlertIcon} from 'sweetalert2';
   providedIn: 'root',
 })
 export class AlertService {
-  warning(code: string, parameters: object = {}, description: string = ''): void {
-    this._open('warning', code, description);
-  }
-
-  danger(code: string, parameters: object = {}, description: string = ''): void {
-    this._open('error', code, description);
-  }
-
-  success(code: string, parameters: object = {}, description: string = '') {
-    this._open('success', code, description);
-  }
 
   info(code: string, parameters: object = {}, description: string = '') {
     this._open('info', code, description);
@@ -23,24 +12,6 @@ export class AlertService {
 
   confirm(title: string = '', description: string = '', callback: Function) {
     this._confirm(title, description, callback);
-  }
-
-  successWithTimer(code: string, parameters: object = {}, timer: number = 1500) {
-    this._openWithTimer(code, parameters, 'success', timer);
-  }
-
-  warningWithTimer(code: string, parameters: object = {}, timer: number = 1500) {
-    this._openWithTimer(code, parameters, 'warning', timer);
-  }
-
-  _openWithTimer(code: string, parameters: object = {}, color: SweetAlertIcon, timer: number) {
-    Swal.fire({
-      icon: color,
-      title: code,
-      showConfirmButton: false,
-      timer: timer
-    }).then(r => {
-    });
   }
 
   private _open(

@@ -1,5 +1,5 @@
 <form [formGroup]="form" (submit)="onSubmit()">
-<!--  <app-form-debug [form]="form" [simple]="false"></app-form-debug>-->
+  <!--  <app-form-debug [form]="form" [simple]="false"></app-form-debug>-->
   <div class="modal-header">
     <h3 class="m-0">Efetuar um novo pagamento</h3>
     <app-btn-close></app-btn-close>
@@ -15,12 +15,13 @@
                                                thousands: '.',
                                                decimal: ',' }"
              [ngClass]="isValid('amount')" id="amount">
-            <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
-                                 [control]="get('amount')"></field-error-message>
-            <field-error-message [type]="'maxNumber'" [message]="'O valor máximo é ' + (availableAmount / 100 | currency:'BRL')"
-                                 [control]="get('amount')"></field-error-message>
-            <field-error-message [type]="'minNumber'" [message]="'O valor mínimo é R$ 0,01'"
-                                 [control]="get('amount')"></field-error-message>
+      <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
+                           [control]="get('amount')"></field-error-message>
+      <field-error-message [type]="'maxNumber'"
+                           [message]="'O valor máximo é ' + (availableAmount / 100 | currency:'BRL')"
+                           [control]="get('amount')"></field-error-message>
+      <field-error-message [type]="'minNumber'" [message]="'O valor mínimo é R$ 0,01'"
+                           [control]="get('amount')"></field-error-message>
     </div>
     <div class="mb-3">
       <label class="form-label" for="cardNumber">Número do cartão</label>

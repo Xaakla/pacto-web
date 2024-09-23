@@ -20,7 +20,7 @@
         </div>
         <div class="mb-3">
           <input [type]="'text'" placeholder="Senha" class="form-control"
-                 [ngClass]="isValid('password')" formControlName="password" />
+                 [ngClass]="isValid('password')" formControlName="password"/>
           <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
                                [control]="get('password')"></field-error-message>
           <field-error-message [type]="'minLength'" [message]="'A senha precisa ter no mínimo 8 caracteres'"
@@ -31,7 +31,7 @@
         </div>
         <div class="mb-4">
           <input [type]="'text'" placeholder="Confirmar senha" class="form-control"
-                 [ngClass]="isValid('confirmPassword')" formControlName="confirmPassword" />
+                 [ngClass]="isValid('confirmPassword')" formControlName="confirmPassword"/>
           <field-error-message [type]="'required'" [message]="'O campo é obrigatório'"
                                [control]="get('confirmPassword')"></field-error-message>
           <field-error-message [type]="'compare'" [message]="'As senhas precisam ser iguais'"
