@@ -1,5 +1,6 @@
 import {Routes} from '@angular/router';
 import {AppRoutes} from "./core/config/routes.config";
+import {LayoutComponent} from "./views/layout/layout.component";
 
 export const routes: Routes = [
   {path: AppRoutes.Empty.path, redirectTo: AppRoutes.Public.Auth.Signin.path, pathMatch: 'full'},
@@ -15,6 +16,7 @@ export const routes: Routes = [
   },
   {
     path: AppRoutes.Empty.path,
+    component: LayoutComponent,
     children: [
       {
         path: AppRoutes.Dashboard.Sales.path,

@@ -23,4 +23,9 @@ export class AuthenticationService {
     return this.http.post(`${this.API}/signin`, data, {observe: 'response'})
       .pipe(take(1));
   }
+
+  public signout() {
+    return this.http.get(`${this.API}/logout`, {observe: 'response'})
+      .pipe(take(1));
+  }
 }

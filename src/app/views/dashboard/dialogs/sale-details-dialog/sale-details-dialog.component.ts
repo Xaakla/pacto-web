@@ -17,6 +17,7 @@ import {PaymentStatus} from "../../../../core/model/payment-status";
 import {AppButtonComponent} from "../../../../shared/app-button/app-button.component";
 import {PaymentService} from "../../../../core/services/rest/payment.service";
 import {LoadingComponent} from "../../../../shared/loading/loading.component";
+import {SalePaymentStatus} from "../../../../core/model/sale-payment-status";
 
 @Component({
   selector: 'app-sale-details-dialog',
@@ -72,6 +73,7 @@ export class SaleDetailsDialogComponent extends FormReactiveBase implements OnIn
         RxwebValidators.maxNumber({value: 99999999.99}),
         RxwebValidators.minNumber({value: 1})]],
       currency: ['BRL', Validators.required],
+      status: [''],
       payments: this._fb.array([])
     });
   }
@@ -134,15 +136,6 @@ export class SaleDetailsDialogComponent extends FormReactiveBase implements OnIn
       });
   }
 
-  public isPaid(): boolean {
-    if (this.getFormArray('payments').value
-      .filter((payment: IPayment) => payment.status === PaymentStatus.SUCCESS).length === 0) {
-      return false;
-    }
-
-    return Math.floor(this.getValue('amount') * 100) === this._paidAmount();
-  }
-
   private _paidAmount(): number {
     return this.getFormArray('payments').value
       .filter((payment: IPayment) => payment.status === PaymentStatus.SUCCESS)
@@ -153,6 +146,10 @@ export class SaleDetailsDialogComponent extends FormReactiveBase implements OnIn
 
   public toggleFieldsStatus(enableFields: boolean) {
     this.get('description')[enableFields ? 'enable' : 'disable']();
+  }
+
+  public translateSalePaymentStatus(status: SalePaymentStatus): string {
+    return FunctionCommon.translateSalePaymentStatus(status);
   }
 
   submit(): void {
@@ -166,4 +163,5 @@ export class SaleDetailsDialogComponent extends FormReactiveBase implements OnIn
   }
 
   protected readonly PaymentStatus = PaymentStatus;
+  protected readonly SalePaymentStatus = SalePaymentStatus;
 }

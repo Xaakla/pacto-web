@@ -1,0 +1,9 @@
+<header class="bg-light">
+  <h5 class="m-0">Bem vindo, {{localStorage.getItem('pacto_name')}}!</h5>
+  <button type="button" class="btn btn-sm btn-danger" (click)="logout()">
+    Sair <i class="fa-solid fa-right-from-bracket"></i>
+  </button>
+</header>
+<main class="container py-5">
+  <router-outlet />
+</main>

@@ -13,6 +13,7 @@ import {ISale} from "../../../core/interfaces/i-sale";
 import {AppPaginationComponent} from "../../../shared/app-pagination/app-pagination.component";
 import {NgbAlert, NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {SaleDetailsDialogComponent} from "../dialogs/sale-details-dialog/sale-details-dialog.component";
+import {SalePaymentStatus} from "../../../core/model/sale-payment-status";
 
 @Component({
   selector: 'app-sale-list',
@@ -45,7 +46,8 @@ export class SaleListComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _alertService: AlertService,
     private _modalService: NgbModal
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this._readQueryParams();
@@ -77,8 +79,7 @@ export class SaleListComponent implements OnInit {
             totalPages: body['data']['totalPages']
           };
           this.loading = false;
-        },
-        error: () => {
+        }, error: () => {
           this.loading = false;
           this._alertService.errorToast('Erro ao buscar vendas!');
         }
@@ -128,19 +129,21 @@ export class SaleListComponent implements OnInit {
       `Tem certeza que deseja deletar a venda com id "${saleId}"? Essa ação é irreversível!`,
       (response: boolean) => {
         if (response) {
-          this._saleService.deleteAllByIds([saleId])
-            .subscribe({
-              next: () => {
-                this._alertService.successToast('Venda deletada com sucesso!');
-                this._getPaginated(this.pagination);
-              }, error: ({error}: any) => {
-                if (error === 'cannotDeletePaidSale') {
-                  this._alertService.warningToast("Não é possível deletar uma venda já paga!");
-                  return;
-                }
-                this._alertService.errorToast("Erro ao deletar venda!");
+          this._deleteAllByIds([saleId],
+            () => {
+              this._alertService.successToast('Venda deletada com sucesso!');
+              this._getPaginated(this.pagination);
+              if (this.sales.length === 0 && this.ngbPage > 1) {
+                this.pagination.page--;
               }
-            });
+            }, ({error}: any) => {
+              if (error === 'cannotDeletePaidSale') {
+                this._alertService.warningToast("Não é possível deletar uma venda já paga!");
+                return;
+              }
+              this._alertService.errorToast("Erro ao deletar venda!");
+            }
+          );
         }
       }
     );
@@ -152,24 +155,33 @@ export class SaleListComponent implements OnInit {
       `Tem certeza que deseja deletar esses usuários? Essa ação é irreversível!`,
       (response: boolean) => {
         if (response) {
-          this._saleService.deleteAllByIds(this.selectedSalesIds)
-            .subscribe({
-              next: () => {
-                this._alertService.successToast('Vendas deletadas com sucesso!');
-                this._getPaginated(this.pagination);
-                this.selectedSalesIds = [];
-              }, error: ({error}: any) => {
-                this.selectedSalesIds = [];
-                if (error === 'cannotDeletePaidSale') {
-                  this._alertService.warningToast("Não é possível deletar uma venda já paga!");
-                  return;
-                }
-                this._alertService.errorToast("Erro ao deletar vendas!");
+          this._deleteAllByIds(this.selectedSalesIds,
+            () => {
+              this._alertService.successToast('Vendas deletadas com sucesso!');
+              this._getPaginated(this.pagination);
+              this.selectedSalesIds = [];
+              if (this.sales.length === 0 && this.ngbPage > 1) {
+                this.pagination.page--;
               }
-            });
+            }, ({error}: any) => {
+              this.selectedSalesIds = [];
+              if (error === 'cannotDeletePaidSale') {
+                this._alertService.warningToast("Não é possível deletar uma venda já paga!");
+                return;
+              }
+              this._alertService.errorToast("Erro ao deletar vendas!");
+            }
+          );
         }
       }
     );
+  }
+
+  private _deleteAllByIds(ids: number[], next = () => {
+  }, error = (error: any) => {
+  }) {
+    this._saleService.deleteAllByIds(ids)
+      .subscribe({next: () => next(), error: () => error(error)});
   }
 
   public checkAll(event: any): void {
@@ -184,8 +196,13 @@ export class SaleListComponent implements OnInit {
     FunctionCommon.addOrRemove(null, saleId, this.selectedSalesIds, condition);
   }
 
+  public translateSalePaymentStatus(status: SalePaymentStatus): string {
+    return FunctionCommon.translateSalePaymentStatus(status);
+  }
+
   public allChecked(): boolean {
     return this.sales?.length > 0 && this.sales?.filter(it => !it.checked).length === 0;
   }
 
+  protected readonly SalePaymentStatus = SalePaymentStatus;
 }

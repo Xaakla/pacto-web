@@ -64,7 +64,7 @@ export class SaleMakePaymentDialogComponent extends FormReactiveBase implements 
       brand: ['VISA', Validators.required],
       expirationDate: ['', Validators.required],
       securityCode: ['', Validators.required],
-      cardType: ['CreditCard'],
+      cardType: ['CREDIT'],
       saveCard: [false],
       saleId: [this.saleId],
       amount: ['', [Validators.required,

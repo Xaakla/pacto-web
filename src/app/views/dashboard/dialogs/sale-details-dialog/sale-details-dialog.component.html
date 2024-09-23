@@ -2,11 +2,22 @@
   <form [formGroup]="form" (submit)="onSubmit()">
     <!--  <app-form-debug [form]="form" [simple]="false"></app-form-debug>-->
     <div class="modal-header">
-      <h3 class="m-0">Detalhes da venda <span class="text-info">#{{ saleId }}</span></h3>
+      <h3 class="m-0">
+        Detalhes da venda
+        <span class="text-info">#{{ saleId }}</span>
+
+      </h3>
       <app-btn-close></app-btn-close>
     </div>
     <div class="modal-body">
-      <div class="mb-3 text-end">
+      <div class="mb-3 d-flex justify-content-between align-items-center">
+        <span class="badge bg-success py-2"
+              [ngClass]="{'bg-secondary': getValue('status') === SalePaymentStatus.PENDING,
+                          'bg-warning': getValue('status') === SalePaymentStatus.PARTIALLY_PAID,
+                          'bg-success': getValue('status') === SalePaymentStatus.FULLY_PAID,
+                          'bg-danger': getValue('status') === SalePaymentStatus.OVERPAID}">
+                {{ translateSalePaymentStatus(getValue('status')) }}
+        </span>
         @if (get('description').disabled) {
           <button type="button" class="btn btn-sm btn-outline-primary" (click)="toggleFieldsStatus(true)">
             Editar <i class="fa-regular fa-pen-to-square"></i>
@@ -49,7 +60,7 @@
         <div class="col-lg-6 col-sm-12">
           <h5>Histórico de pagamentos ({{ getFormArray('payments').length }})</h5>
         </div>
-        @if (!isPaid()) {
+        @if (getValue('status') !== SalePaymentStatus.FULLY_PAID) {
           <div class="col-lg-6 col-sm-12 text-end">
             <button type="button" class="btn btn-sm btn-primary" (click)="openMakePaymentDialog()">
               Novo pagamento
@@ -71,7 +82,7 @@
                 <b>{{ payment.get('amount')?.value / 100 | currency:this.getValue('currency') }}</b>
               </div>
               <div class="info-row mb-2">
-                <span>Processador:</span>
+                <span>Processador de pagamentos:</span>
                 <b>{{ payment.get('paymentProcessor')?.value }}</b>
               </div>
               <div class="info-row mb-2">
@@ -88,7 +99,7 @@
 
               @if (payment.get('status')?.value === PaymentStatus.SUCCESS) {
                 <hr>
-                <app-button [type]="'submit'" [customClass]="'btn btn-sm btn-danger'"
+                <app-button [type]="'button'" [customClass]="'btn btn-sm btn-danger'"
                             [loading]="submittingFormLoadingArray[$index]" [label]="'Pedir reembolso'"
                             (click)="cancelPayment(payment.get('id')?.value, $index)"
                             [loadingLabel]="'Reembolsando...'"></app-button>

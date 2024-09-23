@@ -1,4 +1,5 @@
 import {PaymentStatus} from "../model/payment-status";
+import {SalePaymentStatus} from "../model/sale-payment-status";
 
 export module Strings {
   export function isObjectEmpty(obj: any) {
@@ -39,5 +40,14 @@ export class FunctionCommon {
       [PaymentStatus.REFUNDED, 'Reembolsado'],
       [PaymentStatus.SUCCESS, 'Sucesso']
     ]).get(paymentStatus);
+  }
+
+  public static translateSalePaymentStatus(salePaymentStatus: SalePaymentStatus): string {
+    return <string>new Map<SalePaymentStatus, string>([
+      [SalePaymentStatus.PENDING, 'Pendente'],
+      [SalePaymentStatus.PARTIALLY_PAID, 'Parcialmente pago'],
+      [SalePaymentStatus.OVERPAID, 'Pago em excesso'],
+      [SalePaymentStatus.FULLY_PAID, 'Pago']
+    ]).get(salePaymentStatus);
   }
 }

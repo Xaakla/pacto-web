@@ -8,6 +8,7 @@ import {AppRoutes} from "../../../core/config/routes.config";
 import {RouteService} from "../../../core/services/route.service";
 import {AuthenticationService} from "../../../core/services/rest/authentication.service";
 import {AlertService} from "../../../core/services/alert.service";
+import {HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-signin',
@@ -57,8 +58,10 @@ export class SigninComponent extends FormReactiveBase implements OnInit {
     this.submittingFormLoading = true;
     this._authenticationService.signin(this.form.value)
       .subscribe({
-        next: () => {
-          this._gotoDashboard()
+        next: ({body}: HttpResponse<any>) => {
+          localStorage.setItem('pacto_name', body?.data?.name);
+          localStorage.setItem('pacto_email', body?.data?.email);
+          this._gotoDashboard();
         },
         error: () => {
           this._alertService.errorToast('Erro ao logar seu usuário! Verifique suas credenciais.');
